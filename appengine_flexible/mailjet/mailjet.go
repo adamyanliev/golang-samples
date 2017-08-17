@@ -19,6 +19,29 @@ import "github.com/mailjet/mailjet-apiv3-go"
 
 // [END import]
 
+func main() {
+	http.HandleFunc("/send", sendEmail)
+
+	appengine.Main()
+}
+
+var (
+	mailjetClient = mailjet.NewMailjetClient(
+		mustGetenv("MJ_APIKEY_PUBLIC"),
+		mustGetenv("MJ_APIKEY_PRIVATE"),
+	)
+
+	fromEmail = mustGetenv("MJ_FROM_EMAIL")
+)
+
+func mustGetenv(k string) string {
+	v := os.Getenv(k)
+	if v == "" {
+		log.Fatalf("%s environment variable not set.", k)
+	}
+	return v
+}
+
 func sendEmail(w http.ResponseWriter, r *http.Request) {
 	to := r.FormValue("to")
 	if to == "" {
@@ -27,7 +50,7 @@ func sendEmail(w http.ResponseWriter, r *http.Request) {
 	}
 
 	messagesInfo := []mailjet.InfoMessagesV31{
-		mailjet.InfoMessagesV31{
+		{
 			From: &mailjet.RecipientV31{
 				Email: fromEmail,
 				Name:  "Mailjet Pilot",
