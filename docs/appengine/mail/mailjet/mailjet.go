@@ -54,25 +54,25 @@ func sendEmail(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-messagesInfo := []mailjet.InfoMessagesV31 {
-      mailjet.InfoMessagesV31{
-        From: &mailjet.RecipientV31{
-          Email: fromEmail,
-          Name: "Mailjet Pilot",
-        },
-        To: &mailjet.RecipientsV31{
-          mailjet.RecipientV31 {
-            Email: to,
-            Name: "passenger 1",
-          },
-        },
-        Subject: "Your email flight plan!",
-        TextPart: "Dear passenger, welcome to Mailjet! May the delivery force be with you!",
-        HTMLPart: "<h3>Dear passenger, welcome to Mailjet!</h3><br />May the delivery force be with you!",
-      },
-    }
+	messagesInfo := []mailjet.InfoMessagesV31{
+		mailjet.InfoMessagesV31{
+			From: &mailjet.RecipientV31{
+				Email: fromEmail,
+				Name:  "Mailjet Pilot",
+			},
+			To: &mailjet.RecipientsV31{
+				mailjet.RecipientV31{
+					Email: to,
+					Name:  "passenger 1",
+				},
+			},
+			Subject:  "Your email flight plan!",
+			TextPart: "Dear passenger, welcome to Mailjet! May the delivery force be with you!",
+			HTMLPart: "<h3>Dear passenger, welcome to Mailjet!</h3><br />May the delivery force be with you!",
+		},
+	}
 
-	messages := mailjet.MessagesV31{Info: messagesInfo }
+	messages := mailjet.MessagesV31{Info: messagesInfo}
 	resp, err := mailjetClient.SendMailV31(&messages)
 	if err != nil {
 		msg := fmt.Sprintf("Could not send mail: %v", err)
