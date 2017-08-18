@@ -55,7 +55,7 @@ func sendEmail(w http.ResponseWriter, r *http.Request) {
 	}
 
 	messagesInfo := []mailjet.InfoMessagesV31{
-		mailjet.InfoMessagesV31{
+		{
 			From: &mailjet.RecipientV31{
 				Email: fromEmail,
 				Name:  "Mailjet Pilot",
